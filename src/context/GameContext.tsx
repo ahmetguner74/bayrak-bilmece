@@ -33,7 +33,10 @@ const gameReducer = (state: GameState, action: GameAction): GameState => {
       };
     
     case 'USE_HINT':
-      return { ...state, hints: Math.max(0, state.hints - 1) };
+      return {
+        ...state,
+        hints: state.hints - 1
+      };
     
     case 'INCREASE_SCORE':
       return { ...state, score: state.score + action.payload };
