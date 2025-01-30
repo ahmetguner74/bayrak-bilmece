@@ -15,7 +15,6 @@ const Game: React.FC = () => {
   const [usedCountries, setUsedCountries] = useState<string[]>([]);
   const [showCapitalHint, setShowCapitalHint] = useState(false);
   const [usedHints, setUsedHints] = useState<string[]>([]);
-  const [gameOver, setGameOver] = useState(false);
 
   useEffect(() => {
     // Easy mod için özel filtreleme
@@ -56,7 +55,7 @@ const Game: React.FC = () => {
     setTimeLeft(10);
     setShowCapitalHint(false);
     setIsPaused(false);
-  }, [state.currentQuestion, state.difficulty]);
+  }, [state.currentQuestion, state.difficulty, dispatch, usedCountries]);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -81,7 +80,7 @@ const Game: React.FC = () => {
     }
 
     return () => clearInterval(interval);
-  }, [state.isGameOver, isPaused, state.lives, state.currentQuestion]);
+  }, [state.isGameOver, isPaused, state.lives, state.currentQuestion, dispatch]);
 
   const handleAnswer = (answer: string) => {
     if (answer === currentCountry.name) {
@@ -147,7 +146,7 @@ const Game: React.FC = () => {
 
       <div className="game-content">
         <img 
-          src={`/flags/${currentCountry.code}.png`} 
+          src={`${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`} 
           alt="Ülke Bayrağı"
           className="flag-image"
         />

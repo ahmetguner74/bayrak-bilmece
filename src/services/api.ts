@@ -1,8 +1,6 @@
-import axios from 'axios';
-import { Country } from '../types';
 import { firebaseApi } from './firebase';
 
-// Firebase kullanımı için
+// Sadece firebase api'yi kullanıyoruz
 export const api = firebaseApi;
 
 // Veya Express backend kullanımı için:
