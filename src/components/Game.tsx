@@ -17,6 +17,11 @@ const Game: React.FC = () => {
   const [usedHints, setUsedHints] = useState<string[]>([]);
 
   useEffect(() => {
+    // Debug logları
+    console.log('Current Country:', currentCountry);
+    console.log('Country Code:', currentCountry.code);
+    console.log('Full Flag URL:', `${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`);
+
     // Easy mod için özel filtreleme
     const easyCountries = [
       'tr', 'no', 'mx', 'ca', 'jp', 'it', 'ch', 'se', 
@@ -149,6 +154,11 @@ const Game: React.FC = () => {
           src={`${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`} 
           alt="Ülke Bayrağı"
           className="flag-image"
+          onError={(e) => {
+            console.error(`Bayrak yüklenemedi: ${currentCountry.code}`);
+            console.log('Tam URL:', `${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`);
+            e.currentTarget.style.display = 'none';
+          }}
         />
 
         {showCapitalHint ? (
