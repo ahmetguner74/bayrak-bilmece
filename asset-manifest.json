@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/bayrak-bilmece/static/css/main.5595686c.css",
+    "main.js": "/bayrak-bilmece/static/js/main.cd60d34e.js",
+    "index.html": "/bayrak-bilmece/index.html",
+    "main.5595686c.css.map": "/bayrak-bilmece/static/css/main.5595686c.css.map",
+    "main.cd60d34e.js.map": "/bayrak-bilmece/static/js/main.cd60d34e.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.5595686c.css",
+    "static/js/main.cd60d34e.js"
+  ]
+}
