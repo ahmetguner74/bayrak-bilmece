@@ -150,16 +150,21 @@ const Game: React.FC = () => {
       </div>
 
       <div className="game-content">
-        <img 
-          src={`/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`} 
-          alt="Ülke Bayrağı"
-          className="flag-image"
-          onError={(e) => {
-            console.error(`Bayrak yüklenemedi: ${currentCountry.code}`);
-            console.log('Tam URL:', `/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`);
-            e.currentTarget.style.display = 'none';
-          }}
-        />
+        {currentCountry && (
+          <div className="flag-container">
+            <img 
+              src={`/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`} 
+              alt="Ülke Bayrağı"
+              className="flag-image"
+              onLoad={() => console.log('Bayrak yüklendi:', currentCountry.code)}
+              onError={(e) => {
+                console.error(`Bayrak yüklenemedi: ${currentCountry.code}`);
+                console.log('Tam URL:', `/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`);
+              }}
+              style={{ opacity: 1, transition: 'opacity 0.3s ease-in-out' }}
+            />
+          </div>
+        )}
 
         {showCapitalHint ? (
           <div className="capital-hint-inline">

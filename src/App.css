@@ -1,0 +1,18 @@
+.flag-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px; /* Bayrak yüklenirken alanı koru */
+}
+
+.flag-image {
+  max-width: 100%;
+  height: auto;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in-out forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+} 
