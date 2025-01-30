@@ -18,9 +18,7 @@ const Game: React.FC = () => {
 
   useEffect(() => {
     // Debug logları
-    console.log('Current Country:', currentCountry);
-    console.log('Country Code:', currentCountry.code);
-    console.log('Full Flag URL:', `/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`);
+    console.log('Difficulty:', state.difficulty);
 
     // Easy mod için özel filtreleme
     const easyCountries = [
@@ -30,32 +28,36 @@ const Game: React.FC = () => {
       'au', 'us', 'de'
     ];
 
-    // Filtreleme mantığını debug edelim
-    console.log('Difficulty:', state.difficulty);
-    
-    const filteredByDifficulty = allCountries.filter(c => 
-      state.difficulty !== 'Kolay' 
-        ? c.difficulty === state.difficulty 
-        : easyCountries.includes(c.code.toLowerCase()) // code'ları küçük harfe çevirelim
-    );
+    // Filtreleme mantığını düzelt
+    const filteredByDifficulty = allCountries.filter(c => {
+      if (state.difficulty === 'Kolay') {
+        return easyCountries.includes(c.code.toLowerCase());
+      } else {
+        return c.difficulty === state.difficulty;
+      }
+    });
+
     console.log('Filtered by difficulty:', filteredByDifficulty.length);
+    console.log('Used countries:', usedCountries);
 
-    const filteredCountries = filteredByDifficulty.filter(c => !usedCountries.includes(c.id));
-    console.log('Final filtered countries:', filteredCountries.length);
+    const availableCountries = filteredByDifficulty.filter(c => !usedCountries.includes(c.id));
+    console.log('Available countries:', availableCountries.length);
 
-    if (filteredCountries.length === 0 || state.currentQuestion > 10) {
+    if (availableCountries.length === 0 || state.currentQuestion > 10) {
       console.log('Game Over - No more countries or max questions reached');
       dispatch({ type: 'GAME_OVER' });
       return;
     }
 
-    const randomCountry = filteredCountries[Math.floor(Math.random() * filteredCountries.length)];
+    const randomCountry = availableCountries[Math.floor(Math.random() * availableCountries.length)];
+    console.log('Selected country:', randomCountry);
+    
     setCurrentCountry(randomCountry);
     setUsedCountries(prev => [...prev, randomCountry.id]);
 
     // Yanlış seçenekleri oluştur
-    const wrongOptions = allCountries
-      .filter(c => c.difficulty === state.difficulty && c.id !== randomCountry.id)
+    const wrongOptions = filteredByDifficulty
+      .filter(c => c.id !== randomCountry.id)
       .sort(() => Math.random() - 0.5)
       .slice(0, 3)
       .map(c => c.name);
