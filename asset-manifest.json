@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/bayrak-bilmece/static/css/main.5595686c.css",
-    "main.js": "/bayrak-bilmece/static/js/main.7398f6c9.js",
+    "main.js": "/bayrak-bilmece/static/js/main.f9f58bec.js",
     "index.html": "/bayrak-bilmece/index.html",
     "main.5595686c.css.map": "/bayrak-bilmece/static/css/main.5595686c.css.map",
-    "main.7398f6c9.js.map": "/bayrak-bilmece/static/js/main.7398f6c9.js.map"
+    "main.f9f58bec.js.map": "/bayrak-bilmece/static/js/main.f9f58bec.js.map"
   },
   "entrypoints": [
     "static/css/main.5595686c.css",
-    "static/js/main.7398f6c9.js"
+    "static/js/main.f9f58bec.js"
   ]
 }
