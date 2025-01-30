@@ -20,7 +20,7 @@ const Game: React.FC = () => {
     // Debug logları
     console.log('Current Country:', currentCountry);
     console.log('Country Code:', currentCountry.code);
-    console.log('Full Flag URL:', `${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`);
+    console.log('Full Flag URL:', `/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`);
 
     // Easy mod için özel filtreleme
     const easyCountries = [
@@ -151,12 +151,12 @@ const Game: React.FC = () => {
 
       <div className="game-content">
         <img 
-          src={`${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`} 
+          src={`/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`} 
           alt="Ülke Bayrağı"
           className="flag-image"
           onError={(e) => {
             console.error(`Bayrak yüklenemedi: ${currentCountry.code}`);
-            console.log('Tam URL:', `${process.env.PUBLIC_URL}/flags/${currentCountry.code.toLowerCase()}.png`);
+            console.log('Tam URL:', `/bayrak-bilmece/flags/${currentCountry.code.toLowerCase()}.png`);
             e.currentTarget.style.display = 'none';
           }}
         />

@@ -296,7 +296,7 @@ const AdminPanel: React.FC = () => {
                 <td>{country.id}</td>
                 <td>
                   <img 
-                    src={`${process.env.PUBLIC_URL}/flags/${country.code.toLowerCase()}.png`} 
+                    src={`/bayrak-bilmece/flags/${country.code.toLowerCase()}.png`} 
                     alt={country.name}
                     className="admin-flag-image"
                   />
