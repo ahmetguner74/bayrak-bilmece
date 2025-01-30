@@ -30,14 +30,21 @@ const Game: React.FC = () => {
       'au', 'us', 'de'
     ];
 
-    const filteredCountries = allCountries
-      .filter(c => state.difficulty !== 'Kolay' 
+    // Filtreleme mantığını debug edelim
+    console.log('Difficulty:', state.difficulty);
+    
+    const filteredByDifficulty = allCountries.filter(c => 
+      state.difficulty !== 'Kolay' 
         ? c.difficulty === state.difficulty 
-        : easyCountries.includes(c.code)
-      )
-      .filter(c => !usedCountries.includes(c.id));
+        : easyCountries.includes(c.code.toLowerCase()) // code'ları küçük harfe çevirelim
+    );
+    console.log('Filtered by difficulty:', filteredByDifficulty.length);
+
+    const filteredCountries = filteredByDifficulty.filter(c => !usedCountries.includes(c.id));
+    console.log('Final filtered countries:', filteredCountries.length);
 
     if (filteredCountries.length === 0 || state.currentQuestion > 10) {
+      console.log('Game Over - No more countries or max questions reached');
       dispatch({ type: 'GAME_OVER' });
       return;
     }
