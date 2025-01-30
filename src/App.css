@@ -70,4 +70,94 @@
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
+}
+
+.hint-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px 0;
+}
+
+.hint-button:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.hint-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.hint-modal-content {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.hint-option {
+  padding: 12px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #2196F3;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hint-option:hover:not(:disabled) {
+  background: #1976D2;
+  transform: translateY(-2px);
+}
+
+.hint-option:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+.hint-close {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #f44336;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.hint-close:hover {
+  background: #d32f2f;
+}
+
+.capital-hint {
+  background: rgba(33, 150, 243, 0.1);
+  padding: 10px 20px;
+  border-radius: 8px;
+  margin: 10px 0;
+  border: 1px solid #2196F3;
+}
+
+.capital-hint span {
+  font-weight: bold;
+  color: #1976D2;
 } 

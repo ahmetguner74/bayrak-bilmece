@@ -11,6 +11,10 @@ const Game: React.FC = () => {
   const [currentCountry, setCurrentCountry] = useState<Country>(allCountries[0]);
   const [options, setOptions] = useState<string[]>([]);
   const [usedCountries, setUsedCountries] = useState<string[]>([]);
+  const [showHintModal, setShowHintModal] = useState(false);
+  const [showCapitalHint, setShowCapitalHint] = useState(false);
+  const [usedHints, setUsedHints] = useState<string[]>([]);
+  const [isPaused, setIsPaused] = useState(false);
 
   useEffect(() => {
     const easyCountries = [
@@ -46,27 +50,34 @@ const Game: React.FC = () => {
 
     setOptions([...wrongOptions, randomCountry.name].sort(() => Math.random() - 0.5));
     setTimeLeft(15);
+
+    // Yeni soru yüklendiğinde ipucu durumlarını sıfırla
+    setShowCapitalHint(false);
+    setShowHintModal(false);
+    setIsPaused(false);
   }, [state.currentQuestion, state.difficulty]);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          dispatch({ type: 'DECREASE_LIVES' });
-          if (state.lives > 1) {
-            dispatch({ type: 'NEXT_QUESTION' });
-            return 15;
-          } else {
-            dispatch({ type: 'GAME_OVER' });
-            return 0;
+      if (!isPaused) {
+        setTimeLeft(prev => {
+          if (prev <= 1) {
+            dispatch({ type: 'DECREASE_LIVES' });
+            if (state.lives > 1) {
+              dispatch({ type: 'NEXT_QUESTION' });
+              return 15;
+            } else {
+              dispatch({ type: 'GAME_OVER' });
+              return 0;
+            }
           }
-        }
-        return prev - 1;
-      });
+          return prev - 1;
+        });
+      }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [state.currentQuestion, state.lives]);
+  }, [state.currentQuestion, state.lives, isPaused]);
 
   const handleAnswer = (answer: string) => {
     if (answer === currentCountry.name) {
@@ -79,6 +90,36 @@ const Game: React.FC = () => {
       }
     }
     dispatch({ type: 'NEXT_QUESTION' });
+  };
+
+  const handleHintClick = () => {
+    setIsPaused(true);
+    setShowHintModal(true);
+  };
+
+  const handleHintClose = () => {
+    setIsPaused(false);
+    setShowHintModal(false);
+  };
+
+  const handleHintSelect = (hintType: string) => {
+    if (!usedHints.includes(hintType) && state.hints > 0) {
+      setIsPaused(false);
+      setUsedHints([...usedHints, hintType]);
+      dispatch({ type: 'USE_HINT' });
+      
+      if (hintType === 'capital') {
+        setShowCapitalHint(true);
+        setShowHintModal(false);
+      } else if (hintType === 'fifty') {
+        const wrongOptions = options.filter(opt => opt !== currentCountry.name);
+        const shuffledWrong = wrongOptions.sort(() => Math.random() - 0.5);
+        const optionsToRemove = shuffledWrong.slice(0, 2);
+        
+        setOptions(options.filter(opt => !optionsToRemove.includes(opt)));
+        setShowHintModal(false);
+      }
+    }
   };
 
   if (state.isGameOver) {
@@ -95,6 +136,7 @@ const Game: React.FC = () => {
     <div className="game-container">
       <div className="game-header">
         <div className="lives">❤️ {state.lives}</div>
+        <div className="hints">💡 {state.hints}</div>
         <div className="question-count">Soru: {state.currentQuestion}/10</div>
         <div className="timer">Süre: {timeLeft}</div>
         <div className="score">Skor: {state.score}</div>
@@ -109,6 +151,18 @@ const Game: React.FC = () => {
           />
         </div>
 
+        {showCapitalHint ? (
+          <div className="capital-hint">
+            <p>Başkent: <span>{currentCountry.capital}</span></p>
+          </div>
+        ) : (
+          state.hints > 0 && (
+            <button onClick={handleHintClick} className="hint-button">
+              İpucu Kullan
+            </button>
+          )
+        )}
+
         <div className="options">
           {options.map((option, index) => (
             <button 
@@ -120,6 +174,31 @@ const Game: React.FC = () => {
             </button>
           ))}
         </div>
+
+        {showHintModal && (
+          <div className="hint-modal">
+            <div className="hint-modal-content">
+              <h3>İpucu Seç</h3>
+              <button 
+                onClick={() => handleHintSelect('capital')}
+                disabled={usedHints.includes('capital')}
+                className="hint-option"
+              >
+                Başkent İpucu
+              </button>
+              <button 
+                onClick={() => handleHintSelect('fifty')}
+                disabled={usedHints.includes('fifty')}
+                className="hint-option"
+              >
+                50:50
+              </button>
+              <button onClick={handleHintClose} className="hint-close">
+                Kapat
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
