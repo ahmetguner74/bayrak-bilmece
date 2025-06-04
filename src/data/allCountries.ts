@@ -1,4 +1,4 @@
-﻿import { Country } from '../types';
+import { Country } from '../types';
 
 type Difficulty = "Zor" | "Orta" | "Kolay";
 
