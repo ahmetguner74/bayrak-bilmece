@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { Country } from '../types';
+import { Country } from '../src/types';
 
 const app = express();
 app.use(cors());

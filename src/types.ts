@@ -20,4 +20,11 @@ export interface GameState {
   difficulty: Difficulty;
   section: number;
   isGameOver: boolean;
-} 
+}
+
+export interface User {
+  id: string;
+  username: string;
+  highScore: number;
+  gamesPlayed: number;
+}
